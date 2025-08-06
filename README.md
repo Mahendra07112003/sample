@@ -1,36 +1,168 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MiniGPT - Mobile ChatGPT Clone
 
-## Getting Started
+A mobile-first ChatGPT clone built with Next.js, tRPC, Bootstrap UI, Supabase, Auth0, and Google Gemini API.
 
-First, run the development server:
+## Features
+
+- 📱 **Mobile-First Design** - Optimized for mobile devices
+- 🔐 **Authentication** - Secure login with Auth0
+- 💬 **Real-time Chat** - Powered by Google Gemini AI
+- 🎨 **Image Generation** - Generate images with AI
+- 💾 **Persistence** - Store conversations in Supabase
+- ⚡ **Type Safety** - Full TypeScript with tRPC
+- 🎨 **Modern UI** - Bootstrap components with custom styling
+
+## Tech Stack
+
+- **Frontend**: Next.js 14 (App Router), TypeScript, Bootstrap
+- **Backend**: tRPC, Next.js API Routes
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Auth0
+- **AI**: Google Gemini API
+- **Styling**: Bootstrap + Custom CSS
+
+## Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+- Supabase account
+- Auth0 account
+- Google AI Studio account
+
+## Setup Instructions
+
+### 1. Clone and Install
+
+```bash
+git clone <your-repo-url>
+cd minigpt
+npm install
+```
+
+### 2. Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```env
+# Auth0 Configuration
+AUTH0_SECRET='your-auth0-secret-here'
+AUTH0_BASE_URL='http://localhost:3000'
+AUTH0_ISSUER_BASE_URL='https://your-domain.auth0.com'
+AUTH0_CLIENT_ID='your-auth0-client-id'
+AUTH0_CLIENT_SECRET='your-auth0-client-secret'
+
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL='your-supabase-project-url'
+NEXT_PUBLIC_SUPABASE_ANON_KEY='your-supabase-anon-key'
+SUPABASE_SERVICE_ROLE_KEY='your-supabase-service-role-key'
+
+# Google Gemini API
+GOOGLE_GEMINI_API_KEY='your-gemini-api-key'
+
+# App Configuration
+NEXTAUTH_URL='http://localhost:3000'
+NEXTAUTH_SECRET='your-nextauth-secret'
+```
+
+### 3. Database Setup
+
+1. Go to your Supabase dashboard
+2. Navigate to SQL Editor
+3. Run the contents of `supabase-schema.sql`
+
+### 4. Auth0 Configuration
+
+1. Create a new application in Auth0
+2. Set application type to "Single Page Application"
+3. Add callback URLs: `http://localhost:3000/api/auth/callback`
+4. Add logout URLs: `http://localhost:3000`
+5. Copy the credentials to your `.env.local`
+
+### 5. Google Gemini API
+
+1. Go to [Google AI Studio](https://aistudio.google.com/)
+2. Create an API key
+3. Add it to your `.env.local`
+
+### 6. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Vercel (Recommended)
 
-## Learn More
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Add environment variables in Vercel dashboard
+4. Deploy!
 
-To learn more about Next.js, take a look at the following resources:
+### Render
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Connect your GitHub repository
+2. Set build command: `npm run build`
+3. Set start command: `npm start`
+4. Add environment variables
+5. Deploy!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+src/
+├── app/                 # Next.js App Router
+│   ├── api/            # API routes
+│   ├── globals.css     # Global styles
+│   ├── layout.tsx      # Root layout
+│   └── page.tsx        # Home page
+├── components/         # React components
+│   ├── Chat.tsx        # Main chat interface
+│   └── UserMenu.tsx    # User menu component
+└── lib/               # Utility libraries
+    ├── auth0.ts       # Auth0 configuration
+    ├── gemini.ts      # Google Gemini API
+    ├── supabase.ts    # Supabase client
+    └── trpc.ts        # tRPC configuration
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## API Routes
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `/api/auth/*` - Auth0 authentication
+- `/api/chat` - Chat message processing
+- `/api/trpc/*` - tRPC API endpoints
+
+## Database Schema
+
+### Conversations Table
+- `id` - UUID primary key
+- `user_id` - User identifier
+- `title` - Conversation title
+- `created_at` - Creation timestamp
+- `updated_at` - Last update timestamp
+
+### Chat Messages Table
+- `id` - UUID primary key
+- `user_id` - User identifier
+- `conversation_id` - Foreign key to conversations
+- `content` - Message content
+- `role` - 'user' or 'assistant'
+- `created_at` - Creation timestamp
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Support
+
+For support, please open an issue on GitHub or contact the maintainers.
