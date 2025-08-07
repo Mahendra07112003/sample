@@ -5,7 +5,7 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY!);
 // Text model
 export const textModel = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
-// Image generation model
+// Image analysis model (for analyzing images, not generating them)
 export const imageModel = genAI.getGenerativeModel({ model: 'gemini-pro-vision' });
 
 export async function generateText(prompt: string): Promise<string> {
@@ -36,14 +36,5 @@ export async function generateText(prompt: string): Promise<string> {
   }
 }
 
-export async function generateImage(prompt: string): Promise<string> {
-  try {
-    // Note: Gemini Pro Vision doesn't generate images, it analyzes them
-    // For image generation, we'll use a different approach or API
-    // For now, we'll return a placeholder
-    return `Generated image for: ${prompt}`;
-  } catch (error) {
-    console.error('Error generating image:', error);
-    throw new Error('Failed to generate image');
-  }
-} 
+// Note: Gemini API doesn't support image generation, only image analysis
+// For image generation, we use Stable Diffusion or Hugging Face APIs in the route handler 

@@ -7,6 +7,53 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import Image from 'next/image';
 
+// Custom Image component with fallback
+const ImageWithFallback = ({ src, alt, width, height, className, style }: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  className?: string;
+  style?: React.CSSProperties;
+}) => {
+  const [imgSrc, setImgSrc] = useState(src);
+  const [useFallback, setUseFallback] = useState(false);
+
+  useEffect(() => {
+    setImgSrc(src);
+    setUseFallback(false);
+  }, [src]);
+
+  if (useFallback) {
+    return (
+      <img
+        src={src}
+        alt={alt}
+        className={className}
+        style={style}
+        onError={() => {
+          console.error('Fallback image also failed to load:', src);
+        }}
+      />
+    );
+  }
+
+  return (
+    <Image
+      src={imgSrc}
+      alt={alt}
+      width={width}
+      height={height}
+      className={className}
+      style={style}
+      onError={() => {
+        console.error('Next.js Image failed to load:', src);
+        setUseFallback(true);
+      }}
+    />
+  );
+};
+
 interface Message {
   id: string;
   content: string;
@@ -230,7 +277,7 @@ export default function Chat() {
                     </ReactMarkdown>
                     {message.imageUrl && (
                       <div className="mt-3">
-                        <Image 
+                        <ImageWithFallback 
                           src={message.imageUrl} 
                           alt="Generated" 
                           width={400}

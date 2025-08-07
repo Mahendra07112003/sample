@@ -1,82 +1,164 @@
-# Environment Variables Setup
+# Environment Setup Guide
 
-Create a `.env.local` file in the root directory with the following variables:
+## Required Environment Variables
 
-## 1. Auth0 Configuration (Authentication)
+Create a `.env.local` file in your project root with the following variables:
+
+### For Chat Functionality (Gemini API)
 ```env
-AUTH0_SECRET='your-auth0-secret-here'
-AUTH0_BASE_URL='http://localhost:3000'
-AUTH0_ISSUER_BASE_URL='https://your-domain.auth0.com'
-AUTH0_CLIENT_ID='your-auth0-client-id'
-AUTH0_CLIENT_SECRET='your-auth0-client-secret'
+GOOGLE_GEMINI_API_KEY=your_gemini_api_key_here
 ```
 
-**How to get Auth0 credentials:**
-1. Go to [Auth0 Dashboard](https://manage.auth0.com/)
-2. Create a new application (Single Page Application)
-3. Go to Settings tab
-4. Copy the Domain, Client ID, and Client Secret
-5. Add `http://localhost:3000/api/auth/callback` to Allowed Callback URLs
-6. Add `http://localhost:3000` to Allowed Logout URLs
-
-## 2. Supabase Configuration (Database)
+### For AI Image Generation (Hugging Face - Recommended Free Option)
 ```env
-NEXT_PUBLIC_SUPABASE_URL='your-supabase-project-url'
-NEXT_PUBLIC_SUPABASE_ANON_KEY='your-supabase-anon-key'
-SUPABASE_SERVICE_ROLE_KEY='your-supabase-service-role-key'
+HF_API_KEY=your_huggingface_api_key_here
 ```
 
-**How to get Supabase credentials:**
-1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
-2. Create a new project
-3. Go to Settings > API
-4. Copy the Project URL, anon/public key, and service_role key
+**Why Hugging Face?**
+- ✅ **Completely free** tier available
+- ✅ **Good quality** AI-generated images
+- ✅ **Community-driven models**
+- ✅ **No credit card required**
+- ✅ **Reliable and fast**
 
-## 3. Google Gemini API (LLM)
+### Alternative Image Generation APIs (Optional)
+
+#### Option 1: OpenAI DALL-E (Highest Quality - Paid)
 ```env
-GOOGLE_GEMINI_API_KEY='your-gemini-api-key'
+OPENAI_API_KEY=your_openai_api_key_here
+```
+- Get your API key from: https://platform.openai.com/api-keys
+- Pricing: $0.040 per image (1024x1024)
+- Best quality and consistency
+- Fast generation
+
+#### Option 2: Stability AI (Free tier available)
+```env
+STABILITY_API_KEY=your_stability_api_key_here
+```
+- Get your API key from: https://platform.stability.ai/
+- Free tier: 25 images per month
+- High quality image generation
+- Good for artistic styles
+
+#### Option 3: Replicate (Multiple models - Pay per use)
+```env
+REPLICATE_API_KEY=your_replicate_api_key_here
+```
+- Get your API key from: https://replicate.com/
+- Pay per generation (~$0.01-0.05 per image)
+- Access to multiple AI models
+- Good for experimentation
+
+#### Option 4: Leonardo AI (High quality - Paid)
+```env
+LEONARDO_API_KEY=your_leonardo_api_key_here
+```
+- Get your API key from: https://leonardo.ai/
+- Paid service with credits
+- High quality artistic images
+- Good for creative projects
+
+#### Option 5: Unsplash (Fallback - existing images only)
+```env
+UNSPLASH_ACCESS_KEY=your_unsplash_access_key_here
+```
+- Get your API key from: https://unsplash.com/developers
+- Free tier: 50 requests per hour
+- Note: This searches existing images, doesn't generate new ones
+
+### For Database (Optional)
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-**How to get Gemini API key:**
-1. Go to [Google AI Studio](https://aistudio.google.com/)
-2. Click "Get API key"
-3. Create a new API key
-4. Copy the API key
+## API Key Setup Instructions
 
-## 4. App Configuration
-```env
-NEXTAUTH_URL='http://localhost:3000'
-NEXTAUTH_SECRET='your-nextauth-secret'
-```
+### 1. Hugging Face (Primary Choice - Free)
+1. Go to https://huggingface.co/
+2. Click "Sign Up" and create a free account
+3. After signing in, go to Settings → Access Tokens
+4. Click "New token"
+5. Give it a name like "MiniGPT Image Generation"
+6. Select "Read" role
+7. Click "Generate token"
+8. Copy the token and add it to your `.env.local` file:
+   ```env
+   HF_API_KEY=hf_your_token_here
+   ```
 
-**For NEXTAUTH_SECRET:**
-- Generate a random string: `openssl rand -base64 32`
-- Or use any secure random string
+### 2. Google Gemini (For Chat)
+1. Go to https://makersuite.google.com/app/apikey
+2. Create a new API key
+3. Add it to your `.env.local` file
 
-## Complete .env.local Example:
-```env
-# Auth0 Configuration
-AUTH0_SECRET='your-auth0-secret-here'
-AUTH0_BASE_URL='http://localhost:3000'
-AUTH0_ISSUER_BASE_URL='https://your-domain.auth0.com'
-AUTH0_CLIENT_ID='your-auth0-client-id'
-AUTH0_CLIENT_SECRET='your-auth0-client-secret'
+## Priority Order for Image Generation
 
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL='https://your-project.supabase.co'
-NEXT_PUBLIC_SUPABASE_ANON_KEY='your-supabase-anon-key'
-SUPABASE_SERVICE_ROLE_KEY='your-supabase-service-role-key'
+The system will try image generation APIs in this order:
+1. **Hugging Face** (primary choice - free, AI-generated images)
+2. **OpenAI DALL-E** (highest quality, AI-generated images)
+3. **Stability AI** (high quality, AI-generated images)
+4. **Replicate** (multiple models, AI-generated images)
+5. **Leonardo AI** (artistic quality, AI-generated images)
+6. **Unsplash** (existing images, not AI-generated)
+7. **Placeholder** (fallback if no APIs are configured)
 
-# Google Gemini API
-GOOGLE_GEMINI_API_KEY='your-gemini-api-key'
+## Cost Comparison
 
-# App Configuration
-NEXTAUTH_URL='http://localhost:3000'
-NEXTAUTH_SECRET='your-nextauth-secret'
-```
+| Service | Free Tier | Paid Cost | Quality | Speed |
+|---------|-----------|-----------|---------|-------|
+| **Hugging Face** | ✅ **Yes** | **Free** | ⭐⭐⭐ | ⭐⭐⭐ |
+| OpenAI DALL-E | No | $0.040/image | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Stability AI | 25 images/month | $0.002/image | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| Replicate | No | $0.01-0.05/image | ⭐⭐⭐⭐ | ⭐⭐⭐ |
+| Leonardo AI | No | Credits system | ⭐⭐⭐⭐ | ⭐⭐⭐ |
+| Unsplash | 50 req/hour | Free | ⭐⭐ | ⭐⭐⭐⭐⭐ |
 
-## Important Notes:
+## Testing Your Setup
+
+1. Start your development server:
+   ```bash
+   npm run dev
+   ```
+
+2. Test chat functionality by typing a message
+
+3. Test image generation by:
+   - Typing a prompt like "a beautiful sunset over mountains"
+   - Clicking the image generation button
+   - You should see an AI-generated image that matches your prompt
+
+## Troubleshooting
+
+### Image Generation Issues
+- If you get placeholder images, check that your Hugging Face API key is correctly set
+- If you get errors, check the browser console and server logs
+- Make sure your API key has the correct format: `hf_` followed by the token
+
+### Chat Issues
+- Verify your Gemini API key is correct
+- Check that you haven't exceeded the free tier limits
+
+### Hugging Face Specific Issues
+
+#### Rate Limiting
+- Free tier has rate limits
+- If you get rate limit errors, wait a few minutes and try again
+- Check usage at https://huggingface.co/settings/billing
+
+#### Model Loading
+- First request might take longer as the model loads
+- Subsequent requests will be faster
+- If you get model loading errors, the system will automatically retry
+
+#### Token Format
+- Make sure your token starts with `hf_`
+- Example: `HF_API_KEY=hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`
+
+## Security Notes
+
 - Never commit your `.env.local` file to version control
-- For production deployment, set these variables in your hosting platform (Vercel/Render)
-- The `NEXT_PUBLIC_` prefix makes variables available on the client side
-- Keep your service role keys secure and never expose them to the client 
+- The `.env.local` file is already in `.gitignore`
+- API keys should be kept secure and not shared publicly
+- For production, use environment variables in your hosting platform 
