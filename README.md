@@ -1,1 +1,1 @@
-https://sample-git-main-mahendra-makwanas-projects.vercel.app/
+https://sample-tawny-xi.vercel.app/
