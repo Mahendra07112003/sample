@@ -1,1 +1,1 @@
-https://minigpt-sample.vercel.app
+https://sample-git-main-mahendra-makwanas-projects.vercel.app/
