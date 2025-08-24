@@ -222,7 +222,7 @@ export default function Chat() {
         {messages.length === 0 && (
           <div className="text-center text-muted mt-5">
             <Bot size={48} className="mb-3" />
-            <h6>Welcome to MiniGPT!</h6>
+            <h6>Welcome to VisionChat!</h6>
             <p className="small">Start a conversation by typing a message below.</p>
           </div>
         )}
