@@ -204,7 +204,7 @@ export default function Chat() {
       <div className="navbar navbar-dark bg-primary p-3">
         <div className="container-fluid">
           <div className="d-flex align-items-center">
-            <h5 className="text-white mb-0">MiniGPT</h5>
+            <h5 className="text-white mb-0">VisionChat</h5>
           </div>
           <div className="d-flex align-items-center gap-2">
             <button 
